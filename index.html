@@ -103,6 +103,7 @@ label.lb{display:block;font-size:11px;letter-spacing:.18em;color:var(--mu);font-
 .ob .say{font-size:36px;margin:72px 0 20px}
 .ob .lead{color:var(--mu);font-size:15px;line-height:1.7;margin-bottom:28px}
 .ob .btn{margin-top:36px}
+.note a{color:inherit;text-decoration:underline}
 .note{margin-top:22px;font-size:12px;color:var(--mu);line-height:1.65;text-align:center}
 
 /* 분대 */
@@ -223,7 +224,8 @@ main{position:relative;z-index:1}
 <div id="app"></div>
 <script>
 // 기본 비전 사진: Unsplash License 사진을 흑백으로 변환·크롭해 img/ 폴더에 둠. 작가 이름은 VCRED.
-window.VIMG = {"body":["img/body-01.jpg","img/body-02.jpg","img/body-03.jpg","img/body-04.jpg","img/body-05.jpg","img/body-06.jpg","img/body-07.jpg","img/body-08.jpg","img/body-09.jpg","img/body-10.jpg"],"mind":["img/mind-01.jpg","img/mind-02.jpg","img/mind-03.jpg"],"wealth":["img/wealth-01.jpg","img/wealth-02.jpg","img/wealth-03.jpg","img/wealth-04.jpg","img/wealth-05.jpg","img/wealth-06.jpg","img/wealth-07.jpg","img/wealth-08.jpg","img/wealth-09.jpg"],"family":["img/family-01.jpg","img/family-02.jpg","img/family-03.jpg"]};
+window.VIMG = {"body":["img/body-01.jpg","img/champ-heath.jpg","img/champ-jackson1.jpg","img/champ-arnold.jpg","img/champ-greene.jpg","img/champ-jackson2.jpg","img/champ-coleman.jpg","img/body-02.jpg","img/body-03.jpg","img/body-04.jpg","img/body-05.jpg","img/body-06.jpg","img/body-07.jpg","img/body-08.jpg","img/body-09.jpg","img/body-10.jpg"],"mind":["img/mind-01.jpg","img/mind-02.jpg","img/mind-03.jpg"],"wealth":["img/wealth-01.jpg","img/wealth-02.jpg","img/wealth-03.jpg","img/wealth-04.jpg","img/wealth-05.jpg","img/wealth-06.jpg","img/wealth-07.jpg","img/wealth-08.jpg","img/wealth-09.jpg"],"family":["img/family-01.jpg","img/family-02.jpg","img/family-03.jpg"]};
+window.VNOTE = {"img/champ-coleman.jpg":"로니 콜먼 · 미스터 올림피아 8회","img/champ-greene.jpg":"카이 그린 · 아놀드 클래식 3회 우승","img/champ-heath.jpg":"필 히스 · 미스터 올림피아 7회","img/champ-jackson1.jpg":"덱스터 잭슨 · 2008 미스터 올림피아","img/champ-jackson2.jpg":"덱스터 잭슨 · 2008 미스터 올림피아","img/champ-arnold.jpg":"아놀드 슈워제네거 · 미스터 올림피아 7회"};
 window.VCRED = "Charles Gaudreault, Daniel Stiel, Travis Macfarlane, Anway Pawar, Aravind Mylakkara, Michiel Annaert, Joshua Freake, Muhammed Nishal, kofa boyah, Grgur Vučkov, Mukesh Sharma, Tony Chen, Thilina Alagiyawanna, Ville Kaisla, Bailey Alexander, Jeremy Beadle, Alen Kajtezovic, Danilo Capece, Norbert Buduczki, Brian Lee, Riccardo Pitzalis, Colynary Media, Elodie Debard, Ali Muhammad, Mika Ruusunen";
 </script>
 <script>
@@ -374,7 +376,8 @@ function vMe() { const t = total(), k = today(), nx = MILES.find(m => m > t);
     <ul class="set"><li><button data-act="openCard">오늘의 카드 만들기</button></li><li><button data-act="openWhy">시작한 이유</button></li><li><button data-act="openRules">계율 고치기</button></li><li><button data-act="export">기록 내보내기</button></li><li><button data-act="pickImport">기록 가져오기</button></li><li><button class="dg" data-act="openReset">처음부터 다시</button></li></ul>
     <input type="file" id="im-f" accept="application/json,.json" hidden>
     <p class="note">${S.lastExport ? "마지막 내보내기 " + S.lastExport.slice(5).replace("-", ".") : "아직 내보낸 적이 없습니다"} · 기록은 이 기기에만 있으니 가끔 내보내 두세요.</p>
-    <p class="note">기본 사진 · Unsplash (${VCRED})</p>`; }
+    <p class="note">기본 사진 · Unsplash (${VCRED})</p>
+    <p class="note">챔피언 사진 · Wikimedia Commons · <a href="https://www.localfitness.com.au" target="_blank" rel="noopener">www.localfitness.com.au</a> (CC BY-SA 3.0), Kevin Laval (CC0), Madison Square Garden Center (퍼블릭 도메인) · 흑백 변환과 크롭 · <a href="https://github.com/kang1seok/jeongjin/blob/main/CREDITS.md" target="_blank" rel="noopener">상세 출처</a></p>`; }
 
 function pillarRate(id) { const k = today(); let d = addDays(k, -27); if (d < S.profile.start) d = S.profile.start; let n = 0, ok = 0;
   while (d <= k) { const done = !!getDay(d).done[id]; if (d < k || done) { n++; if (done) ok++; } d = addDays(d, 1); } return n ? Math.round(ok / n * 100) : null; }
@@ -410,7 +413,7 @@ function heroBase() { const rs = PILLARS.map(p => ({ p, r: pillarRate(p.id) })).
   if (rs.length) { const lo = rs.reduce((a, b) => (b.r < a.r ? b : a)), hi = rs.reduce((a, b) => (b.r > a.r ? b : a)); if (hi.r - lo.r >= 10) return lo.p; }
   return PILLARS[(dayNo() - 1) % PILLARS.length]; }
 function vHero() { const p = heroPillar(); return `<div class="hbg" style="background-image:url(${vimg(p.id)})" aria-hidden="true"></div>`; }
-function vCap() { const p = heroPillar(), t = vis(p.id).text || VDEF[p.id]; return `<p class="vcap lbl"><b>${p.ko}</b>${t ? ' · ' + esc(t) : ''}</p>`; }
+function vCap() { const p = heroPillar(), t = vis(p.id).text || (window.VNOTE || {})[heroImg()] || VDEF[p.id]; return `<p class="vcap lbl"><b>${p.ko}</b>${t ? ' · ' + esc(t) : ''}</p>`; }
 function vVision() { return `<h2>비전 · 이루고 싶은 결과</h2>
     <div class="vis">${PILLARS.map(p => { const v = vis(p.id);
       return `<button class="vt" data-act="openVision" data-id="${p.id}" aria-label="${p.ko} 비전 고치기"><img src="${vimg(p.id)}" alt="" loading="lazy"><span class="vl"><span class="lbl">${p.ko}</span><span class="vx">${esc(v.text || VDEF[p.id])}</span></span></button>`; }).join('')}</div>`; }
